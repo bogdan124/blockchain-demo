@@ -1,0 +1,361 @@
+
+<html>
+
+<head>
+
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<!------ Include the above in your HEAD tag ---------->
+<script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<!------ Include the above in your HEAD tag ---------->
+<style>
+  
+
+body{background:#f3f3f3;}
+#wrapper{padding:90px 15px;}
+.navbar-expand-lg .navbar-nav.side-nav{flex-direction: column;}
+.header-top{box-shadow: 0 3px 5px rgba(0,0,0,.1)}
+
+
+@media(min-width:992px) {
+#wrapper{margin-left:70px}
+.navbar-nav.side-nav{text-align:center;background: #585f66;box-shadow: 2px 1px 2px rgba(0,0,0,.1);position:fixed;top:59px;flex-direction: column!important;left:0px;width:70px;bottom:0;padding-bottom:40px}
+.side-nav li { border-bottom: 1px solid #50575d;}
+.side-nav li a {padding: 20px;display:block;position:relative;}
+.navbar-nav li a svg{font-size: 25px;margin: 0 10px 0 5px;}
+.navbar-nav li a .ttip {opacity:0;position:absolute;    background: #333;
+    left: 0px;
+    white-space: nowrap;
+    top: 16px;
+    border-radius: 3px;
+    padding: 5px 10px;
+    transition: .5s ease all;}
+.navbar-nav li a:hover .ttip {opacity:1;left: 70px;}
+.navbar-nav li a .ttip:after {
+	right: 100%;
+	top: 50%;
+	border: solid transparent;
+	content: " ";
+	height: 0;
+	width: 0;
+	position: absolute;
+	pointer-events: none;
+	border-color: rgba(136, 183, 213, 0);
+	border-right-color: #333;
+	border-width: 5px;
+	margin-top: -5px;
+}
+}
+
+.row.move-bottom {
+    margin-bottom: 15px;
+}
+
+.modal-content {
+    width: 90em;
+    margin-left: -20em;
+}
+</style>
+</head>
+
+<body>
+  <div id="wrapper" class="animate">
+    <nav class="navbar header-top fixed-top navbar-expand-lg navbar-dark bg-dark">
+      <a class="navbar-brand" href="#"></a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText"
+        aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarText">
+       
+        <ul class="navbar-nav ml-md-auto d-md-flex">
+           <li class="nav-item">
+                <a class="nav-link" href="#" data-toggle="modal" data-target="#exampleModal" onclick="walletFunc()"><i class="fas fa-wallet"></i> Wallet</a>
+           </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#" data-toggle="modal" data-target="#exampleModal" onclick="mineFunc()"><i class="fas fa-user"></i> Mine</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#" data-toggle="modal" data-target="#exampleModal" onclick="transactionFunc()"><i class="fas fa-key"></i> Transaction</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+    <div class="container-fluid">
+        <div class="row move-bottom">
+            <div class="col">
+                <div class="card">
+                  <div class="card-body">
+                    <h5 class="card-title">Blocks</h5>
+                
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th scope="col">Index</th>
+                          <th scope="col">Difficulty</th>
+                          <th scope="col">Hash</th>
+                          <th scope="col">Wallet</th>
+                          <th scope="col">Reward</th>
+                          <th scope="col">PrevBlock</th>
+                          <th scope="col">Timestamp</th>
+                      
+                          <th scope="col">View</th>
+                        </tr>
+                      </thead>
+                      <tbody class="add_data_blocks">
+                       
+                       
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+          </div>
+
+      <div class="row">
+        <div class="col">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Wallets</h5>
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col">id</th>
+                    <th scope="col">Wallet</th>
+                    <th scope="col">Coins</th>
+                    <th scope="col">View</th>
+                  </tr>
+                </thead>
+                <tbody id="add_wallets">
+               
+                 
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Transactions</h5>
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col">id</th>
+                    <th scope="col">Source Wallet</th>
+                    <th scope="col">Destination Wallet</th>
+                    <th scope="col">Coins</th>
+                    <th scope="col">View</th>
+                  </tr>
+                </thead>
+                <tbody id="TransactionsID">
+                 
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+     
+
+    </div>
+  </div>
+
+
+  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel-title">Transactions</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body" id="add-data-body">
+          
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+       
+        </div>
+      </div>
+    </div>
+  </div>
+  <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+  <script>
+       function showModalData(d1,d2,d3,type){
+                 $("#exampleModalLabel-title").html("");
+                 $("#add-data-body").html("");
+            console.log(d1);
+            if(type==1){
+                $("#exampleModalLabel-title").html("<b>Transaction</b>");
+                $("#add-data-body").html("<b>Wallet Source: </b>"+d1+"<br/>"+"<b>Wallet Destination: </b>"+d2+"<br/>"+"<b>Coins: </b>"+d3);
+            }else if(type==3){
+                $("#exampleModalLabel-title").html("<b>Wallet</b>");
+                $("#add-data-body").html("<b>Wallet id: </b>"+d1+"<br/>"+"<b>Wallet: </b>"+d3+"<br/>"+"<b>Coins:</b>"+d2);
+            }
+        }
+
+        function showModalBlocks(Index,Difficulty,Hash,Wallet,Reward,PrevBlock,Timestamp){
+            $("#exampleModalLabel-title").html("");
+            $("#add-data-body").html("");
+            $("#exampleModalLabel-title").html("<b>Block</b>");
+            $("#add-data-body").html(`<b>Index: </b>${Index}	<br/>
+            <b>Difficulty: </b>	${Difficulty}
+            <br/><b>Hash: </b>	${Hash}
+            <br/><b>Wallet: </b>${Wallet}	
+            <br/><b>Reward: </b>	${Reward}
+            <br/><b>PrevBlock: </b>${PrevBlock}	
+            <br/><b>Timestamp: </b> ${Timestamp}`);
+        }
+
+       $.ajax({
+           url: "http://localhost:8080/get", 
+           success: function(result){
+               for(var i=0; i<result.Blocks.length;i++){
+                   console.log(result.Blocks[i]);
+                    $(".add_data_blocks").append(`
+                        <tr>
+                        <th scope="row">${result.Blocks[i].Index}</th>
+                        <td>${result.Blocks[i].Difficulty}</td>
+                        <td>${result.Blocks[i].Hash.substring(0,40)}...</td>
+                        <td>${result.Blocks[i].Mined.Wallet.substring(0,40)}...</td>
+                        <td>${result.Blocks[i].Mined.Coins}</td>
+                        <td>${result.Blocks[i].PrevBlock.substring(0,40)}...</td>
+                        <td>${result.Blocks[i].Timestamp}</td>
+                        
+                        <td><button class="btn btn-primary"  data-toggle="modal" data-target="#exampleModal" onclick="showModalBlocks('${result.Blocks[i].Index}',
+                            '${result.Blocks[i].Difficulty}','${result.Blocks[i].Hash}','${result.Blocks[i].Mined.Wallet}','${result.Blocks[i].Mined.Coins}','${result.Blocks[i].PrevBlock}','${result.Blocks[i].Timestamp}')">View</button></td>
+                        </tr>
+                    `);
+                   
+               }
+               let keysWallets=Object.keys(result.Wallets);
+                   
+               for(let j=0;j<keysWallets.length;j++){
+                $("#add_wallets").append(`
+                            <tr>
+                            <th scope="row">${j+1}</th>
+                            <td>${keysWallets[j].substring(0,60)}...</td>
+                            <td>${result.Wallets[keysWallets[j]].Coins}</td>
+                            <td><button class="btn btn-primary" onclick="showModalData('${j+1}','${result.Wallets[keysWallets[j]].Coins}','${keysWallets[j]}','3')"  data-toggle="modal" data-target="#exampleModal"> View</button></td>
+                        </tr>
+                    `);
+               }
+               console.log(result.Blocks[0].Transactions);
+               for(let j=0;j<result.Blocks[0].Transactions.length;j++){
+                   console.log(result.Blocks[0].Transactions[j].WalletSource.Coins);
+                    $("#TransactionsID").append(`
+                            <tr>
+                            <th scope="row">${j+1}</th>
+                            <td>${result.Blocks[0].Transactions[j].WalletSource.Wallet.substring(0,30)}...</td>
+                            <td>${result.Blocks[0].Transactions[j].WalletDest.Wallet.substring(0,30)}...</td>
+                            <td>${result.Blocks[0].Transactions[j].WalletSource.Coins}</td>
+                            <td><button class="btn btn-primary" onclick="showModalData('${result.Blocks[0].Transactions[j].WalletSource.Wallet}','${result.Blocks[0].Transactions[j].WalletDest.Wallet}','${result.Blocks[0].Transactions[j].WalletSource.Coins}','1')"  data-toggle="modal" data-target="#exampleModal"> View</button></td>
+                        </tr>
+                    `);
+               }
+
+                console.log(result);
+            }
+    });
+
+    function mineFunc(){
+        $("#exampleModalLabel-title").html("<b>Mine</b>");
+        $("#add-data-body").html(`<input type='text' width='20em' id="private-val-mine" placeholder='Wallet dest public key' /> <br/>
+                <button class="btn btn-primary" onclick="sendMine()">Mine</button>
+                <div class="show-resp"></div>
+                `);
+    }
+
+    function transactionFunc(){
+        $("#exampleModalLabel-title").html("<b>Transaction</b>");
+        $("#add-data-body").html(`<input type='text' width='20em' id="private-val" placeholder='Wallet private key' /> <br/>
+                <input type='text' width='20em' id="public-val" placeholder='Wallet destination public key' /><br/>
+                <input type='number' width='10em' id="coins-val" placeholder='Coins' /><br/>
+                <button class="btn btn-primary" onclick="sendTransaction()">Transaction</button>
+                <div class="show-resp"></div>
+                `);
+
+     
+    }
+
+    function sendTransaction(){
+        console.log(1,$('#public-val').val(),$('#private-val').val(),$('#coins-val').val());
+        let coin=$('#coins-val').val();
+        let sendData={
+            "PrivateKey":$('#private-val').val(),
+            "DestinationWallet":$('#public-val').val(),
+            "Money":Number(coin)
+           }
+           console.log(sendData);
+        $.ajax({
+           url: "/transaction", 
+           data:JSON.stringify(sendData),
+           type: 'post',
+           contentType: "application/json",
+           dataType: "json",
+           success: function(result){
+               $(".show-resp").html(result.Error);
+               console.log(result);
+           }
+        });
+    }
+   
+    function sendMine(){
+        let sendData={
+            "Coins":12,
+            "Wallet":$('#private-val-mine').val()
+        }
+        console.log(sendData)
+        $.ajax({
+           url: "/mine", 
+           type: 'post',
+           data:JSON.stringify(sendData),
+           contentType: "application/json",
+           dataType: "json",
+           success: function(result){
+               $(".show-resp").html(result.Error);
+               console.log(result);
+           }
+        });
+    }
+
+    function walletFunc(){
+        $("#exampleModalLabel-title").html("<b>Wallet</b>");
+        $("#add-data-body").html(`<input type='text' width='20em' id="private-val-key" placeholder='pass to generate keys' /> <br/>
+                <button class="btn btn-primary" onclick="generateKeyPairs()">Generate keys</button>
+                <div class="show-resp"></div>
+                `);
+    }
+
+    function generateKeyPairs(){
+        let sendData={
+            "Coins":12,
+            "Wallet":$('#private-val-key').val()
+        }
+        $.ajax({
+           url: "/createWallet", 
+           type: 'post',
+           data:JSON.stringify(sendData),
+           contentType: "application/json",
+           dataType: "json",
+           success: function(result){
+               if (result.WalPubKey) {
+                $(".show-resp").html("Public key: "+result.WalPubKey+"<br/>Private key: "+result.WalPrivateKey);
+               }else{
+                $(".show-resp").html("Error: "+result.Error);
+               }
+               console.log(result);
+           }
+        });
+    }
+
+        </script>
+    </body>
+</html>

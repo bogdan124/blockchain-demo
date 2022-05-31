@@ -3,6 +3,8 @@ package serverfile
 import (
 	"encoding/json"
 	"fmt"
+	"html/template"
+	"io/ioutil"
 	"lsacBlockchain/models"
 	"lsacBlockchain/service"
 	"net/http"
@@ -11,19 +13,24 @@ import (
 var BlocksChains models.BlockchainContainer
 
 func SetUpServer() {
+	LoadDataFile()
 	http.HandleFunc("/get", ShowBlocks)
 	http.HandleFunc("/mine", SetBlock)
 	http.HandleFunc("/createWallet", CreateWallet)
 	http.HandleFunc("/wallet", ViewWallet)
 	http.HandleFunc("/transaction", CreateTransaction)
 
+	http.HandleFunc("/", IndexPage)
+	http.HandleFunc("/get/blocks", GetAllBlocks)
+
 	http.ListenAndServe(":8080", nil)
+
 }
 
 func ShowBlocks(w http.ResponseWriter, req *http.Request) {
 	fmt.Print(len(BlocksChains.Blocks))
 	w.Header().Set("Content-Type", "application/json")
-
+	go SaveDataToFile()
 	if len(BlocksChains.Blocks) == 0 {
 		BlocksChains = service.InitGenesisBlock(BlocksChains)
 	}
@@ -149,4 +156,28 @@ func CreateTransaction(w http.ResponseWriter, req *http.Request) {
 		RetWallError.Error = "No Wallet created"
 		json.NewEncoder(w).Encode(RetWallError)
 	}
+}
+
+func GetAllBlocks(w http.ResponseWriter, req *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+
+	json.NewEncoder(w).Encode(BlocksChains)
+}
+
+func IndexPage(w http.ResponseWriter, req *http.Request) {
+	t, _ := template.ParseFiles("public/index.html")
+	t.Execute(w, "Hello World!")
+}
+
+func SaveDataToFile() {
+
+	file, _ := json.MarshalIndent(BlocksChains, "", " ")
+
+	_ = ioutil.WriteFile("data/blockchain.json", file, 0644)
+}
+
+func LoadDataFile() {
+
+	file, _ := ioutil.ReadFile("data/blockchain.json")
+	_ = json.Unmarshal([]byte(file), &BlocksChains)
 }
