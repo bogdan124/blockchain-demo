@@ -28,7 +28,7 @@ func SetUpServer() {
 }
 
 func ShowBlocks(w http.ResponseWriter, req *http.Request) {
-	fmt.Print(len(BlocksChains.Blocks))
+	//fmt.Print(len(BlocksChains.Blocks))
 	w.Header().Set("Content-Type", "application/json")
 	go SaveDataToFile()
 	if len(BlocksChains.Blocks) == 0 {
@@ -42,7 +42,7 @@ func ShowBlocks(w http.ResponseWriter, req *http.Request) {
 	}
 	w.Write(response)
 
-	fmt.Print(BlocksChains)
+	//fmt.Print(BlocksChains)
 }
 
 func SetBlock(w http.ResponseWriter, req *http.Request) {
@@ -59,7 +59,7 @@ func SetBlock(w http.ResponseWriter, req *http.Request) {
 		for i := 0; ; i++ {
 			iteratorBlock := i
 			hashBlock, actualBlock := service.NetworkBlock(BlocksChains.Blocks, viewSetBlock, iteratorBlock, viewSetBlock.Wallet)
-			fmt.Println(service.ValidateBlock(hashBlock, 4, "0"))
+			//fmt.Println(service.ValidateBlock(hashBlock, 4, "0"))
 			if service.ValidateBlock(hashBlock, 4, "0") {
 				BlocksChains.Blocks = append(BlocksChains.Blocks, actualBlock)
 				data := BlocksChains.Wallets[viewSetBlock.Wallet]
@@ -68,7 +68,7 @@ func SetBlock(w http.ResponseWriter, req *http.Request) {
 				BlocksChains.Wallets[viewSetBlock.Wallet] = data
 				break
 			} else {
-				fmt.Println(hashBlock)
+				//fmt.Println(hashBlock)
 			}
 		}
 	} else {
